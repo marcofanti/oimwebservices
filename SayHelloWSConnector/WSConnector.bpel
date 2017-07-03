@@ -1,0 +1,215 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Oct 03 10:55:08 IST 2012
+  Author:  hamahesh
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="WSConnector"
+         targetNamespace="http://xmlns.oracle.com/Application4/OIMWSConnector/WSConnector"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.oracle.com/Application4/OIMWSConnector/WSConnector"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns1="http://org.identityconnectors.genericws"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://org.identityconnectors.genericws/types"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://single/">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="wsconnector_client" partnerLinkType="ns1:WSConnector"
+                 myRole="WebservicesConnectorService"/>
+    <partnerLink name="SayHelloLink" partnerLinkType="ns3:SayHello_PL"
+                 partnerRole="SayHello_Role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <variable name="CreateOp_InputVariable" messageType="ns1:create"/>
+    <variable name="CreateOpReply_OutputVariable" messageType="ns1:createResponse"/> 
+    <variable name="InvokeCreate_sayHello_InputVariable" messageType="ns3:sayHello"/>
+    <variable name="InvokeCreate_sayHello_OutputVariable" messageType="ns3:sayHelloResponse"/>
+  </variables>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in WSConnector.wsdl) -->
+    <!-- Generate reply to synchronous request -->
+    <pick name="OperationPicker" createInstance="yes">
+      <onMessage variable="CreateOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="create">
+        <sequence name="CreateOp">
+          <assign name="CreateAssignment">
+            <copy bpelx:ignoreMissingFromData="yes">
+              <from variable="CreateOp_InputVariable" part="parameters"
+                    query="/ns2:create/userAccount/login"/>
+              <to variable="CreateOpReply_OutputVariable" part="parameters"
+                  query="/ns2:createResponse/uid"/>
+            </copy>
+            <copy>
+              <from variable="CreateOp_InputVariable" part="parameters"
+                    query="/ns2:create/userAccount/login"/>
+              <to variable="InvokeCreate_sayHello_InputVariable"
+                  part="parameters" query="/ns3:sayHello/arg0"/>
+            </copy>
+          </assign>
+          <scope name="Scope1">
+            <faultHandlers>
+              <catchAll/>
+            </faultHandlers>
+            <invoke name="InvokeCreate" bpelx:invokeAsDetail="no"
+                    inputVariable="InvokeCreate_sayHello_InputVariable"
+                    outputVariable="InvokeCreate_sayHello_OutputVariable"
+                    partnerLink="SayHelloLink" portType="ns3:SayHello"
+                    operation="sayHello"/>
+          </scope>
+          <reply name="CreateOpReply" variable="CreateOpReply_OutputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="create"/>
+        </sequence>
+      </onMessage>
+      <!--
+      <onMessage variable="DeleteOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="delete">
+        <sequence name="DeleteOp">
+          <invoke name="InvokeDelete"/>
+          <reply name="DeleteOpReply" variable="DeleteOpReply_OutputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="delete"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="UpdateOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="update">
+        <sequence name="UpdateOp">
+          <assign name="UpdateAssignment">
+            <copy>
+              <from variable="UpdateOp_InputVariable" part="parameters"
+                    query="/ns2:update/uid"/>
+              <to variable="UpdateOpReply_OutputVariable" part="parameters"
+                  query="/ns2:updateResponse/uid"/>
+            </copy>
+          </assign>
+          <invoke name="InvokeUpdate"/>
+          <reply name="UpdateOpReply" variable="UpdateOpReply_OutputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="update"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="ResetPasswordOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="resetPassword">
+        <sequence name="ResetPassword">
+          <assign name="ResetPasswordAssign">
+            <copy>
+              <from variable="ResetPasswordOp_InputVariable" part="parameters"
+                    query="/ns2:resetPassword/uid"/>
+              <to variable="ResetPasswordReply_OutputVariable" part="parameters"
+                  query="/ns2:resetPasswordResponse/uid"/>
+            </copy>
+          </assign>
+          <invoke name="InvokeResetPassword"/>
+          <reply name="ResetPasswordReply" partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="resetPassword"
+                 variable="ResetPasswordReply_OutputVariable"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="UdpateAddAttributeValueOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="udpateAddAttributeValue">
+        <sequence name="UpdateAddAttributeValues">
+          <assign name="AddAttrValAssignment">
+            <copy>
+              <from variable="UdpateAddAttributeValueOp_InputVariable"
+                    part="parameters" query="/ns2:udpateAddAttributeValue/uid"/>
+              <to variable="UpdateAddAttrValReply_OutputVariable"
+                  part="parameters"
+                  query="/ns2:udpateAddAttributeValueResponse/uid"/>
+            </copy>
+          </assign>
+          <invoke name="InvokeAddAttrVal"/>
+          <reply name="AddAttrValReply"
+                 variable="UpdateAddAttrValReply_OutputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="udpateAddAttributeValue"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="UdpateRemoveAttributeValueOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="udpateRemoveAttributeValue">
+        <sequence name="UpdateRemoveAttributeValues">
+          <assign name="RemoveAttrValAssignment">
+            <copy>
+              <from variable="UdpateRemoveAttributeValueOp_InputVariable"
+                    part="parameters"
+                    query="/ns2:udpateRemoveAttributeValue/uid"/>
+              <to variable="UpdateRemoveAttrValReply_OutputVariable"
+                  part="parameters"
+                  query="/ns2:udpateRemoveAttributeValueResponse/uid"/>
+            </copy>
+          </assign>
+          <invoke name="InvokeRemoveAttrVal"/>
+          <reply name="RemoveAttrValReply"
+                 variable="UpdateRemoveAttrValReply_OutputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="udpateRemoveAttributeValue"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="LookupSearchOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="lookupSearch">
+        <sequence name="LookupSearchOp">
+          <invoke name="InvokeLookupSearch"/>
+          <reply name="LookupSearchReply"
+                 variable="LookupSearchReply_OutputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService"
+                 operation="lookupSearch"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="SearchOp_InputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="search">
+        <sequence name="SearchOp">
+          <invoke name="InvokeSearch"/>
+          <reply name="SearchReply" variable="SearchReply_OutputVariable"
+                 partnerLink="wsconnector_client"
+                 portType="ns1:WebservicesConnectorService" operation="search"/>
+        </sequence>
+      </onMessage> -->
+    </pick>
+  </sequence>
+</process>

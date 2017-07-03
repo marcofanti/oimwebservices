@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions targetNamespace="http://org.identityconnectors.genericws"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="http://org.identityconnectors.genericws"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:types="http://org.identityconnectors.genericws/types">
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://org.identityconnectors.genericws/types"
+                    schemaLocation="WebservicesConnectorService.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="create">
+        <wsdl:part name="parameters" element="types:create"/>
+    </wsdl:message>
+    <wsdl:message name="createResponse">
+        <wsdl:part name="parameters" element="types:createResponse"/>
+    </wsdl:message>
+    <wsdl:message name="delete">
+        <wsdl:part name="parameters" element="types:delete"/>
+    </wsdl:message>
+    <wsdl:message name="deleteResponse">
+        <wsdl:part name="parameters" element="types:deleteResponse"/>
+    </wsdl:message>
+    <wsdl:message name="update">
+        <wsdl:part name="parameters" element="types:update"/>
+    </wsdl:message>
+    <wsdl:message name="updateResponse">
+        <wsdl:part name="parameters" element="types:updateResponse"/>
+    </wsdl:message>
+    <wsdl:message name="resetPassword">
+        <wsdl:part name="parameters" element="types:resetPassword"/>
+    </wsdl:message>
+    <wsdl:message name="resetPasswordResponse">
+        <wsdl:part name="parameters" element="types:resetPasswordResponse"/>
+    </wsdl:message>
+    <wsdl:message name="udpateAddAttributeValue">
+        <wsdl:part name="parameters" element="types:udpateAddAttributeValue"/>
+    </wsdl:message>
+    <wsdl:message name="udpateAddAttributeValueResponse">
+        <wsdl:part name="parameters"
+                   element="types:udpateAddAttributeValueResponse"/>
+    </wsdl:message>
+    <wsdl:message name="udpateRemoveAttributeValue">
+        <wsdl:part name="parameters"
+                   element="types:udpateRemoveAttributeValue"/>
+    </wsdl:message>
+    <wsdl:message name="udpateRemoveAttributeValueResponse">
+        <wsdl:part name="parameters"
+                   element="types:udpateRemoveAttributeValueResponse"/>
+    </wsdl:message>
+    <wsdl:message name="lookupSearch">
+        <wsdl:part name="parameters" element="types:lookupSearch"/>
+    </wsdl:message>
+    <wsdl:message name="lookupSearchResponse">
+        <wsdl:part name="parameters" element="types:lookupSearchResponse"/>
+    </wsdl:message>
+    <wsdl:message name="search">
+        <wsdl:part name="parameters" element="types:search"/>
+    </wsdl:message>
+    <wsdl:message name="searchResponse">
+        <wsdl:part name="parameters" element="types:searchResponse"/>
+    </wsdl:message>
+    <wsdl:message name="AlreadyExistsException">
+        <wsdl:part name="fault" element="types:AlreadyExistsException"/>
+    </wsdl:message>
+    <wsdl:message name="UnknownUidException">
+        <wsdl:part name="fault" element="types:UnknownUidException"/>
+    </wsdl:message>
+    <wsdl:message name="ConnectorException">
+        <wsdl:part name="fault" element="types:ConnectorException"/>
+    </wsdl:message>
+    <wsdl:message name="ConnectionBrokenException">
+        <wsdl:part name="fault" element="types:ConnectionBrokenException"/>
+    </wsdl:message>
+    <wsdl:portType name="WebservicesConnectorService">
+        <wsdl:operation name="create">
+            <wsdl:input message="tns:create"/>
+            <wsdl:output message="tns:createResponse"/>
+            <wsdl:fault message="tns:AlreadyExistsException"
+                        name="AlreadyExistsException"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+        </wsdl:operation>
+        <wsdl:operation name="delete">
+            <wsdl:input message="tns:delete"/>
+            <wsdl:output message="tns:deleteResponse"/>
+            <wsdl:fault message="tns:UnknownUidException"
+                        name="UnknownUidException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+        </wsdl:operation>
+        <wsdl:operation name="update">
+            <wsdl:input message="tns:update"/>
+            <wsdl:output message="tns:updateResponse"/>
+            <wsdl:fault message="tns:UnknownUidException"
+                        name="UnknownUidException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+        </wsdl:operation>
+        <wsdl:operation name="resetPassword">
+            <wsdl:input message="tns:resetPassword"/>
+            <wsdl:output message="tns:resetPasswordResponse"/>
+            <wsdl:fault message="tns:UnknownUidException"
+                        name="UnknownUidException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+        </wsdl:operation>
+        <wsdl:operation name="udpateAddAttributeValue">
+            <wsdl:input message="tns:udpateAddAttributeValue"/>
+            <wsdl:output message="tns:udpateAddAttributeValueResponse"/>
+            <wsdl:fault message="tns:UnknownUidException"
+                        name="UnknownUidException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+        </wsdl:operation>
+        <wsdl:operation name="udpateRemoveAttributeValue">
+            <wsdl:input message="tns:udpateRemoveAttributeValue"/>
+            <wsdl:output message="tns:udpateRemoveAttributeValueResponse"/>
+            <wsdl:fault message="tns:UnknownUidException"
+                        name="UnknownUidException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+        </wsdl:operation>
+        <wsdl:operation name="lookupSearch">
+            <wsdl:input message="tns:lookupSearch"/>
+            <wsdl:output message="tns:lookupSearchResponse"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+        </wsdl:operation>
+        <wsdl:operation name="search">
+            <wsdl:input message="tns:search"/>
+            <wsdl:output message="tns:searchResponse"/>
+            <wsdl:fault message="tns:ConnectionBrokenException"
+                        name="ConnectionBrokenException"/>
+            <wsdl:fault message="tns:ConnectorException"
+                        name="ConnectorException"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

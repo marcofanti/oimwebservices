@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.5. -->
+<xs:schema xmlns:tns="http://org.identityconnectors.genericws/types"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+           targetNamespace="http://org.identityconnectors.genericws/types">
+  <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+  <xs:element name="UnknownUidException" type="tns:UnknownUidException"/>
+  <xs:element name="ConnectionBrokenException"
+              type="tns:ConnectionBrokenException"/>
+  <xs:element name="ConnectorException"
+              type="tns:ConnectorException"/>
+  <xs:element name="create" type="tns:create"/>
+  <xs:element name="createResponse" type="tns:createResponse"/>
+  <xs:element name="delete" type="tns:delete"/>
+  <xs:element name="deleteResponse" type="tns:deleteResponse"/>
+  <xs:element name="lookupSearch" type="tns:lookupSearch"/>
+  <xs:element name="lookupSearchResponse" type="tns:lookupSearchResponse"/>
+  <xs:element name="search" type="tns:search"/>
+  <xs:element name="searchResponse" type="tns:searchResponse"/>
+  <xs:element name="udpateAddAttributeValue"
+              type="tns:udpateAddAttributeValue"/>
+  <xs:element name="udpateAddAttributeValueResponse"
+              type="tns:udpateAddAttributeValueResponse"/>
+  <xs:element name="udpateRemoveAttributeValue"
+              type="tns:udpateRemoveAttributeValue"/>
+  <xs:element name="udpateRemoveAttributeValueResponse"
+              type="tns:udpateRemoveAttributeValueResponse"/>
+  <xs:element name="update" type="tns:update"/>
+  <xs:element name="updateResponse" type="tns:updateResponse"/>
+  <xs:element name="resetPassword" type="tns:resetPassword"/>
+  <xs:element name="resetPasswordResponse" type="tns:resetPasswordResponse"/>
+  <xs:complexType name="lookupSearch">
+    <xs:sequence>
+      <xs:element name="objectClass" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="lookupSearchResponse">
+    <xs:sequence>
+      <xs:element name="lookupEntries" type="tns:singleValuedAttribute"
+                  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="singleValuedAttribute">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="search">
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:long" minOccurs="0"/>
+      <xs:element name="batchStart" type="xs:int"/>
+      <xs:element name="batchEnd" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="searchResponse">
+    <xs:sequence>
+      <xs:element name="userSearchRecords" type="tns:userSearchRecord" minOccurs="0"
+                  maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="userSearchRecord">
+    <xs:sequence>
+      <xs:element name="userAccount" type="tns:userAccount" minOccurs="1"
+                  maxOccurs="1"/>
+      <xs:element name="timestamp" type="xs:long" minOccurs="0"/>
+      <xs:element name="multivaluedAttributes" type="tns:multivaluedAttr"
+                  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="multivaluedAttr">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="values" type="xs:string"
+                  nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="userAccount">
+    <xs:sequence>
+      <xs:element name="__NAME__" type="xs:string" minOccurs="0"/>
+      <xs:element name="address" type="xs:string" minOccurs="0"/>
+      <xs:element name="commonName" type="xs:string" minOccurs="0"/>
+      <xs:element name="country" type="xs:string" minOccurs="0"/>
+      <xs:element name="departmentNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="deprovisioningDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="displayName" type="xs:string" minOccurs="0"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
+      <xs:element name="empno" type="xs:string" minOccurs="0"/>
+      <xs:element name="endDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="fax" type="xs:string" minOccurs="0"/>
+      <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="generationQualifier" type="xs:string" minOccurs="0"/>
+      <xs:element name="hireDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="homeAddress" type="xs:string" minOccurs="0"/>
+      <xs:element name="homePhone" type="xs:string" minOccurs="0"/>
+      <xs:element name="initials" type="xs:string" minOccurs="0"/>
+      <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+      <xs:element name="locality" type="xs:string" minOccurs="0"/>
+      <xs:element name="login" type="xs:string" minOccurs="0"/>
+      <xs:element name="manager" type="xs:string" minOccurs="0"/>
+      <xs:element name="middleName" type="xs:string" minOccurs="0"/>
+      <xs:element name="mobile" type="xs:string" minOccurs="0"/>
+      <xs:element name="organization" type="xs:string" minOccurs="0"/>
+      <xs:element name="POBox" type="xs:string" minOccurs="0"/>
+      <xs:element name="pager" type="xs:string" minOccurs="0"/>
+      <xs:element name="__PASSWORD__" type="xs:string" minOccurs="0"/>
+      <xs:element name="provisioningDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="startDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="state" type="xs:string" minOccurs="0"/>
+      <xs:element name="status" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="street" type="xs:string" minOccurs="0"/>
+      <xs:element name="telephoneNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="title" type="xs:string" minOccurs="0"/>
+      <xs:element name="userType" type="xs:string" minOccurs="0"/>
+      <xs:element name="otherAttributes" type="tns:singleValuedAttribute"
+                  nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="update">
+    <xs:sequence>
+      <xs:element name="objectClass" type="xs:string" minOccurs="0"/>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+      <xs:element name="updatedAttribute" type="tns:singleValuedAttribute"
+                  minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateResponse">
+    <xs:sequence>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="resetPassword">
+    <xs:sequence>
+      <xs:element name="objectClass" type="xs:string" minOccurs="0"/>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+      <xs:element name="newPassword" type="xs:string" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="resetPasswordResponse">
+    <xs:sequence>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UnknownUidException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="create">
+    <xs:sequence>
+      <xs:element name="objectClass" type="xs:string" minOccurs="0"/>
+      <xs:element name="userAccount" type="tns:userAccount" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createResponse">
+    <xs:sequence>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AlreadyExistsException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ConnectionBrokenException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ConnectorException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="udpateAddAttributeValue">
+    <xs:sequence>
+      <xs:element name="objectClass" type="xs:string" minOccurs="0"/>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+      <xs:element name="attributeName" type="xs:string" minOccurs="0"/>
+      <xs:element name="newAttributeValue" type="tns:singleValuedAttribute"
+                  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="udpateAddAttributeValueResponse">
+    <xs:sequence>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="delete">
+    <xs:sequence>
+      <xs:element name="objectClass" type="xs:string" minOccurs="0"/>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="udpateRemoveAttributeValue">
+    <xs:sequence>
+      <xs:element name="objectClass" type="xs:string" minOccurs="0"/>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+      <xs:element name="attributeName" type="xs:string" minOccurs="0"/>
+      <xs:element name="removedAttributeValue" type="tns:singleValuedAttribute"
+                  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="udpateRemoveAttributeValueResponse">
+    <xs:sequence>
+      <xs:element name="uid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
