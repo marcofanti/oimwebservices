@@ -88,6 +88,14 @@
                     partnerLink="SayHelloLink" portType="ns3:SayHello"
                     operation="sayHello"/>
           </scope>
+          <assign name="CreateOpReplyAssignment">
+            <copy bpelx:ignoreMissingFromData="yes">
+              <from variable="InvokeCreate_sayHello_OutputVariable"
+                    part="parameters" query="/ns3:sayHelloResponse/return"/>
+              <to variable="CreateOpReply_OutputVariable" part="parameters"
+                  query="/ns2:createResponse/uid"/>
+            </copy>
+          </assign>
           <reply name="CreateOpReply" variable="CreateOpReply_OutputVariable"
                  partnerLink="wsconnector_client"
                  portType="ns1:WebservicesConnectorService" operation="create"/>
