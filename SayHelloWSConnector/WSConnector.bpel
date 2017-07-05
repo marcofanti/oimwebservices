@@ -71,7 +71,7 @@
               <to variable="CreateOpReply_OutputVariable" part="parameters"
                   query="/ns2:createResponse/uid"/>
             </copy>
-            <copy>
+            <copy bpelx:ignoreMissingFromData="yes">
               <from variable="CreateOp_InputVariable" part="parameters"
                     query="/ns2:create/userAccount/login"/>
               <to variable="InvokeCreate_sayHello_InputVariable"
