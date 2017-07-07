@@ -65,13 +65,7 @@
                  portType="ns1:WebservicesConnectorService" operation="create">
         <sequence name="CreateOp">
           <assign name="CreateAssignment">
-            <copy bpelx:ignoreMissingFromData="yes">
-              <from variable="CreateOp_InputVariable" part="parameters"
-                    query="/ns2:create/userAccount/login"/>
-              <to variable="CreateOpReply_OutputVariable" part="parameters"
-                  query="/ns2:createResponse/uid"/>
-            </copy>
-            <copy bpelx:ignoreMissingFromData="yes">
+            <copy>
               <from variable="CreateOp_InputVariable" part="parameters"
                     query="/ns2:create/userAccount/login"/>
               <to variable="InvokeCreate_sayHello_InputVariable"
@@ -79,9 +73,6 @@
             </copy>
           </assign>
           <scope name="Scope1">
-            <faultHandlers>
-              <catchAll/>
-            </faultHandlers>
             <invoke name="InvokeCreate" bpelx:invokeAsDetail="no"
                     inputVariable="InvokeCreate_sayHello_InputVariable"
                     outputVariable="InvokeCreate_sayHello_OutputVariable"
