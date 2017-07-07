@@ -65,7 +65,7 @@
                  portType="ns1:WebservicesConnectorService" operation="create">
         <sequence name="CreateOp">
           <assign name="CreateAssignment">
-            <copy>
+            <copy bpelx:ignoreMissingFromData="yes">
               <from variable="CreateOp_InputVariable" part="parameters"
                     query="/ns2:create/userAccount/login"/>
               <to variable="InvokeCreate_sayHello_InputVariable"
