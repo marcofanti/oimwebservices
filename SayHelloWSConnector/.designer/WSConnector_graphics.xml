@@ -4,17 +4,16 @@
    <annotationfile/>
    <iconize/>
    <partnerlink_locations>
-      <partnerlink name="wsconnector_client" x="1" y="583" side="left"/>
-      <partnerlink name="SayHelloLink" x="1533" y="358" side="right"/>
+      <partnerlink name="wsconnector_client" x="3" y="669" side="left"/>
+      <partnerlink name="SayHelloLink" x="1538" y="358" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,0,1649,685" show_swimlanes="true">
+   <graph_layout viewport="0,0,1654,854" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/pick" type="pick"/>
       <layout_item collapsed="false" xpath="/process/sequence/pick/onMessage" type="onMessage"/>
       <layout_item collapsed="false" xpath="/process/sequence/pick/onMessage/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/pick/onMessage/sequence/scope" type="scope" showhandlers="true"/>
-      <layout_item collapsed="false" xpath="/process/sequence/pick/onMessage/sequence/scope/faultHandlers/catchAll" type="catchall"/>
    </graph_layout>
    <bookmarks/>
 </graphics>
